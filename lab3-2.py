@@ -12,11 +12,12 @@ time_deadline = [0.5, 1, 2, 5]
 iter_deadline = [100, 200, 500, 1000]
 
 threshold = 4
-
+count = 0
 
 class Perceptron(object):
 
     def __init__(self, no_of_inputs, threshold=4, learning_rate=0.1):
+
         self.threshold = threshold
         self.learning_rate = learning_rate
         self.weights = np.zeros(no_of_inputs + 1)
@@ -30,11 +31,13 @@ class Perceptron(object):
         return activation
 
     def train(self, training_inputs, labels):
+        global count
         for _ in range(self.threshold):
             for inputs, label in zip(training_inputs, labels):
                 prediction = self.predict(inputs)
                 self.weights[1:] += self.learning_rate * (label - prediction) * inputs
                 self.weights[0] += self.learning_rate * (label - prediction)
+                count = count + 1
 
 
 training_inputs = []
@@ -50,3 +53,4 @@ perceptron.train(training_inputs, label)
 
 print(perceptron.predict(np.array([3, 4])))
 print(perceptron.predict(np.array([0, 7])))
+print('Кількість ітерацій: ', count)
